@@ -1,1 +1,115 @@
-*{box-sizing:border-box}body{margin:0;background:#08090d;color:#f5f5f5;font-family:Arial,sans-serif}.wrap{max-width:620px;margin:8vh auto;padding:20px}header{display:flex;align-items:center;gap:14px;margin-bottom:26px}.mark{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#f2c14e,#8b5a12);display:grid;place-items:center;color:#090909;font-weight:900;font-size:22px}h1{margin:0;letter-spacing:2px}header p,.profile p{margin:5px 0;color:#9da3b2}.panel{background:#13151d;border:1px solid #282c38;border-radius:20px;padding:25px}.eyebrow{color:#e6b84b;font-size:11px;letter-spacing:2px;font-weight:bold}h2{margin:8px 0 16px}.profile{display:flex;align-items:center;gap:14px;padding:15px;background:#1b1e28;border-radius:14px;margin:20px 0}.avatar{width:42px;height:42px;border-radius:50%;background:#e6b84b;color:#111;display:grid;place-items:center}.balance{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-top:1px solid #303441;margin-top:20px}.balance strong{font-size:25px;color:#e6b84b}small{display:block;color:#9299a8;line-height:1.5}.hidden{display:none}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #090909;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  padding: 20px;
+  background: #151515;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  border-bottom: 1px solid #333;
+}
+
+h2 { color: #ff4040; }
+
+.balance {
+  background: #252525;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+main {
+  max-width: 750px;
+  margin: 25px auto;
+  padding: 15px;
+}
+
+.game {
+  background: #151515;
+  padding: 15px;
+  border-radius: 18px;
+}
+
+.sky {
+  height: 320px;
+  background: radial-gradient(ellipse at bottom, #391313, #101010 70%);
+  border: 1px solid #542020;
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+#multiplier {
+  text-align: center;
+  padding-top: 70px;
+  font-size: 55px;
+  font-weight: bold;
+  color: #ff4545;
+}
+
+#plane {
+  position: absolute;
+  left: 10%;
+  bottom: 35px;
+  font-size: 45px;
+  transition: left .1s linear, bottom .1s linear;
+}
+
+#status {
+  text-align: center;
+  margin-top: 12px;
+  color: #aaa;
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+.controls {
+  display: grid;
+  gap: 12px;
+  padding-top: 20px;
+}
+
+input {
+  padding: 15px;
+  background: #252525;
+  border: 1px solid #444;
+  border-radius: 9px;
+  color: white;
+  font-size: 17px;
+}
+
+button {
+  padding: 16px;
+  background: #d92828;
+  color: white;
+  border: 0;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: .5;
+}
+
+.history {
+  background: #151515;
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 14px;
+}
+
+.notice {
+  text-align: center;
+  color: #999;
+  font-size: 12px;
+}
