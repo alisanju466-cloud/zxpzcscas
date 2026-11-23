@@ -3,76 +3,133 @@ const tg = window.Telegram?.WebApp;
 tg?.ready();
 tg?.expand();
 
-let demoBalance = 1000;
-let running = false;
-let multiplier = 1;
-let timer = null;
-
-const balanceEl = document.getElementById("balance");
+const sky = document.querySelector(".sky");
+const plane = document.getElementById("plane");
 const multiplierEl = document.getElementById("multiplier");
-const planeEl = document.getElementById("plane");
 const statusEl = document.getElementById("status");
 const playBtn = document.getElementById("play");
 const historyEl = document.getElementById("history");
 
-function updateBalance() {
-  balanceEl.textContent = demoBalance.toLocaleString("en-IN");
+let running = false;
+let locked = false;
+let multiplier = 1;
+let elapsed = 0;
+let crashAt = 1;
+let timer = null;
+let lockBtn = null;
+
+function setupClouds() {
+  ["one", "two"].forEach(name => {
+    const cloud = document.createElement("div");
+    cloud.className = "cloud " + name;
+    sky.appendChild(cloud);
+  });
+}
+
+function resetPlane() {
+  plane.style.left = "10%";
+  plane.style.bottom = "35px";
+  plane.textContent = "✈️";
+  sky.classList.remove("explosion");
 }
 
 function addHistory(value) {
   const item = document.createElement("span");
-  item.textContent = value + "  ";
-  item.style.color = "#ff7777";
-  item.style.marginRight = "12px";
+  item.className = "history-item";
+  item.textContent = value;
   historyEl.prepend(item);
+
+  while (historyEl.children.length > 12) {
+    historyEl.lastElementChild.remove();
+  }
 }
 
-function startRound() {
+function finishFlight() {
+  clearInterval(timer);
+  running = false;
+
+  sky.classList.add("explosion");
+  plane.textContent = "💥";
+  statusEl.textContent = "FLIGHT ENDED";
+
+  if (!locked) {
+    addHistory("Ended at " + multiplier.toFixed(2) + "x");
+  }
+
+  playBtn.disabled = false;
+  playBtn.textContent = "START NEW FLIGHT";
+  lockBtn.disabled = true;
+}
+
+function startFlight() {
   if (running) return;
 
-  const bet = Number(document.getElementById("bet").value);
-
-  if (!Number.isSafeInteger(bet) || bet < 1 || bet > 1000) {
-    statusEl.textContent = "ENTER A VALID DEMO AMOUNT";
-    return;
-  }
-
-  if (bet > demoBalance) {
-    statusEl.textContent = "NOT ENOUGH DEMO POINTS";
-    return;
-  }
-
-  demoBalance -= bet;
-  updateBalance();
-
   running = true;
+  locked = false;
+  elapsed = 0;
   multiplier = 1;
-  let elapsed = 0;
+
+  // Random visual ending point for the demo.
+  crashAt = 1.5 + Math.random() * 7;
+
+  multiplierEl.textContent = "1.00x";
+  statusEl.textContent = "PLANE TAKING OFF";
+
+  resetPlane();
 
   playBtn.disabled = true;
-  playBtn.textContent = "ROUND RUNNING";
-  statusEl.textContent = "PLANE IN FLIGHT";
+  playBtn.textContent = "FLIGHT RUNNING";
+
+  lockBtn.disabled = false;
+  lockBtn.textContent = "LOCK SCORE";
 
   timer = setInterval(() => {
     elapsed += 0.1;
-    multiplier = 1 + elapsed * 0.25;
+
+    multiplier = 1 + elapsed * 0.22 + elapsed * elapsed * 0.018;
 
     multiplierEl.textContent = multiplier.toFixed(2) + "x";
-    planeEl.style.left = Math.min(85, 10 + elapsed * 5) + "%";
-    planeEl.style.bottom = Math.min(230, 35 + elapsed * 12) + "px";
 
-    if (elapsed >= 8) {
-      clearInterval(timer);
-      running = false;
+    const progress = Math.min(elapsed / 9, 1);
 
-      statusEl.textContent = "DEMO ROUND FINISHED";
-      addHistory(multiplier.toFixed(2) + "x");
+    plane.style.left = Math.min(82, 10 + elapsed * 7) + "%";
+    plane.style.bottom = Math.min(275, 35 + elapsed * 24) + "px";
 
-      playBtn.disabled = false;
-      playBtn.textContent = "START DEMO ROUND";
+    statusEl.textContent = "IN FLIGHT • " + multiplier.toFixed(2) + "x";
+
+    if (multiplier >= crashAt) {
+      finishFlight();
     }
   }, 100);
 }
+
+function lockScore() {
+  if (!running || locked) return;
+
+  locked = true;
+  clearInterval(timer);
+  running = false;
+
+  addHistory("Locked " + multiplier.toFixed(2) + "x");
+
+  statusEl.textContent = "SCORE LOCKED: " + multiplier.toFixed(2) + "x";
+  playBtn.disabled = false;
+  playBtn.textContent = "START NEW FLIGHT";
+  lockBtn.disabled = true;
+}
+
+playBtn.addEventListener("click", startFlight);
+
+lockBtn = document.createElement("button");
+lockBtn.className = "lock";
+lockBtn.textContent = "LOCK SCORE";
+lockBtn.disabled = true;
+lockBtn.addEventListener("click", lockScore);
+
+playBtn.parentNode.appendChild(lockBtn);
+
+setupClouds();
+resetPlane();
 
 playBtn.addEventListener("click", startRound);
 updateBalance();
