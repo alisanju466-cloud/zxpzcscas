@@ -1,195 +1,211 @@
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  background: #070910;
+  min-height: 100vh;
+  background: #080b20;
   color: white;
   font-family: Arial, sans-serif;
+  padding: 15px;
 }
 
 header {
-  background: #101522;
-  padding: 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  border-bottom: 1px solid #29334b;
+  padding: 12px 3px 22px;
 }
 
-header h2 {
-  color: #ff4545;
-  margin: 0;
+.brand {
+  font-weight: 900;
+  font-size: 20px;
+  letter-spacing: 1px;
 }
 
-.balance {
-  background: #202a3b;
-  padding: 12px;
+.brand span {
+  color: #a58aff;
+}
+
+.profile {
+  background: #191c3b;
+  padding: 10px 13px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.tabs, .mode {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tabs button, .mode button {
+  flex: 1;
+  border: 1px solid #393d70;
+  background: #151936;
+  color: #aaaed0;
   border-radius: 10px;
+  padding: 13px;
+  font-weight: bold;
 }
 
-main {
-  width: min(850px, 95%);
-  margin: 20px auto;
+.tabs .active, .mode .selected {
+  background: linear-gradient(120deg, #6846d9, #a34de9);
+  color: white;
+  border: 0;
 }
 
 .game {
-  background: #101522;
-  border: 1px solid #27344d;
-  border-radius: 18px;
-  padding: 12px;
+  background: linear-gradient(150deg, #171b49, #25205b 55%, #101832);
+  border: 1px solid #45447d;
+  border-radius: 17px;
+  padding: 15px;
   overflow: hidden;
+}
+
+.top-info {
+  display: flex;
+  justify-content: space-between;
+  color: #aaaed4;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.multiplier {
+  text-align: center;
+  font-size: clamp(55px, 15vw, 85px);
+  font-weight: 900;
+  margin: 22px 0 0;
+  color: #fff;
+  text-shadow: 0 0 25px #a35cff;
 }
 
 .sky {
+  height: 240px;
   position: relative;
-  height: 390px;
   overflow: hidden;
-  border-radius: 14px;
-  background:
-    radial-gradient(ellipse at 80% 80%, #50202c 0%, transparent 45%),
-    linear-gradient(150deg, #101e37, #080b15 75%);
+  background: radial-gradient(ellipse at bottom, #4935a3, #191c49 65%, #10172f);
+  border-radius: 12px;
+  margin-top: 5px;
 }
 
-.sky::before {
-  content: "";
+.curve {
   position: absolute;
-  inset: 0;
-  opacity: .35;
-  background-image:
-    radial-gradient(white 1px, transparent 1px);
-  background-size: 48px 48px;
-  animation: stars 15s linear infinite;
-}
-
-@keyframes stars {
-  from { transform: translateY(0); }
-  to { transform: translateY(48px); }
-}
-
-#multiplier {
-  position: absolute;
-  top: 65px;
-  width: 100%;
-  text-align: center;
-  font-size: clamp(45px, 12vw, 76px);
-  font-weight: 900;
-  color: #fff;
-  text-shadow: 0 0 25px #ff3838;
-  z-index: 4;
+  width: 150%;
+  height: 190px;
+  left: 8%;
+  top: 90px;
+  border-top: 3px solid #c18bff;
+  border-radius: 50%;
+  transform: rotate(-24deg);
+  opacity: .65;
+  box-shadow: 0 -5px 20px #a44dff;
 }
 
 #plane {
   position: absolute;
-  left: 10%;
-  bottom: 35px;
-  font-size: 55px;
-  z-index: 5;
-  filter: drop-shadow(0 0 14px #ff6b37);
-  transform: rotate(-15deg);
-  transition: left .08s linear, bottom .08s linear;
+  font-size: 43px;
+  left: 12px;
+  bottom: 15px;
+  transition: transform .1s linear;
+  filter: drop-shadow(0 0 13px #c18bff);
+  z-index: 2;
 }
 
 .cloud {
   position: absolute;
-  width: 180px;
-  height: 45px;
-  background: #35435c;
-  opacity: .22;
-  border-radius: 50%;
-  filter: blur(13px);
-  animation: cloudMove 12s linear infinite;
+  color: #a9a5e9;
+  opacity: .3;
+  font-size: 40px;
 }
 
-.cloud.one {
-  top: 35%;
-  left: 100%;
-}
+.cloud1 { top: 35px; left: 20%; }
+.cloud2 { top: 100px; right: 12%; }
+.cloud3 { top: 15px; right: 40%; }
 
-.cloud.two {
-  top: 72%;
-  left: 130%;
-  animation-delay: -5s;
-}
-
-@keyframes cloudMove {
-  to { transform: translateX(-1100px); }
-}
-
-#status {
-  position: absolute;
-  bottom: 15px;
-  width: 100%;
-  text-align: center;
-  color: #d3d9e8;
-  letter-spacing: 2px;
-  font-size: 12px;
-  z-index: 6;
-}
-
-.controls {
-  padding: 18px 5px 8px;
-  display: grid;
-  gap: 12px;
-}
-
-button {
-  border: none;
-  border-radius: 11px;
-  padding: 17px;
-  font-size: 16px;
+.history-title {
+  color: #aaaed4;
+  font-size: 11px;
   font-weight: bold;
-  cursor: pointer;
-  color: white;
-  background: linear-gradient(110deg, #e52c3d, #ff6545);
-}
-
-button.lock {
-  background: linear-gradient(110deg, #087e60, #13b987);
-}
-
-button:disabled {
-  opacity: .45;
-  cursor: not-allowed;
+  margin: 17px 0 10px;
 }
 
 .history {
-  margin-top: 18px;
-  padding: 18px;
-  background: #101522;
-  border: 1px solid #27344d;
-  border-radius: 14px;
-}
-
-#history {
   display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
+  gap: 7px;
+  overflow-x: auto;
+  padding-bottom: 4px;
 }
 
-.history-item {
-  padding: 9px 13px;
-  background: #252e43;
-  border-radius: 20px;
-  color: #ffb6a3;
+.history span {
+  background: #29234e;
+  color: #d4b8ff;
+  border: 1px solid #59418a;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  white-space: nowrap;
 }
 
-.explosion {
-  animation: blast .45s ease-out;
+.controls {
+  margin-top: 15px;
+  background: #121631;
+  border: 1px solid #292e59;
+  border-radius: 15px;
+  padding: 15px;
 }
 
-@keyframes blast {
-  0% { filter: brightness(1); }
-  30% { filter: brightness(4) saturate(2); }
-  100% { filter: brightness(.5); }
+.score-card {
+  background: #1c2043;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.score-card span {
+  color: #a6a9c9;
+  font-size: 11px;
+}
+
+.score-card strong {
+  color: #c39aff;
+  font-size: 22px;
+}
+
+.main-btn, .save-btn {
+  width: 100%;
+  padding: 17px;
+  border: 0;
+  border-radius: 11px;
+  color: white;
+  font-weight: 900;
+  font-size: 15px;
+  margin-top: 9px;
+}
+
+.main-btn {
+  background: linear-gradient(100deg, #7046ed, #b044e8);
+  box-shadow: 0 5px 20px #713ce955;
+}
+
+.save-btn {
+  background: linear-gradient(100deg, #168bce, #6550db);
+}
+
+button:disabled {
+  opacity: .4;
 }
 
 .notice {
   text-align: center;
-  color: #8590a6;
-  font-size: 12px;
-  padding: 15px;
+  color: #777eaa;
+  font-size: 10px;
+  margin-top: 13px;
 }
