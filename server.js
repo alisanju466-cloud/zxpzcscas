@@ -289,6 +289,43 @@ app.get("/api/bot/points/:telegram_id", async (req, res) => {
     });
   }
 });
+// Receive balance from Telegram bot
+app.post("/api/bot/sync-balance", async (req, res) => {
+  try {
+    const suppliedSecret = req.headers["x-bot-secret"];
+
+    if (!BOT_API_SECRET || suppliedSecret !== BOT_API_SECRET) {
+      return res.status(401).json({ ok: false });
+    }
+
+    const { telegram_id, points } = req.body || {};
+
+    if (!/^\d+$/.test(String(telegram_id || ""))) {
+      return res.status(400).json({ ok: false, error: "Invalid ID" });
+    }
+
+    const value = Number(points);
+
+    if (!Number.isSafeInteger(value) || value < 0) {
+      return res.status(400).json({ ok: false, error: "Invalid points" });
+    }
+
+    const result = await pool.query(
+      `INSERT INTO web_accounts (telegram_id, points)
+       VALUES ($1, $2)
+       ON CONFLICT (telegram_id)
+       DO UPDATE SET points = EXCLUDED.points
+       RETURNING points`,
+      [String(telegram_id), value]
+    );
+
+    res.json({ ok: true, points: Number(result.rows[0].points) });
+
+  } catch (error) {
+    console.error("Balance sync error:", error.message);
+    res.status(500).json({ ok: false });
+  }
+});
 // Start server after database initialization
 async function startServer() {
   try {
