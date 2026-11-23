@@ -4,35 +4,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ZXPZCS | Aviator Demo</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <title>ZXPZCS AVIATOR</title>
   <link rel="stylesheet" href="/style.css">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
   <header>
-    <h2>✈ ZXPZCS AVIATOR</h2>
-    <div class="balance">Demo points: <b id="balance">1000</b></div>
+    <div class="brand">🚀 ZXPZCS <span>AVIATOR</span></div>
+    <div class="profile">👤 PLAYER</div>
   </header>
 
-  <main>
-    <section class="game">
-      <div class="sky">
-        <div id="multiplier">1.00x</div>
-        <div id="plane">✈️</div>
-        <div id="status">READY FOR TAKEOFF</div>
-      </div>
+  <div class="tabs">
+    <button class="active">CLASSIC</button>
+    <button>FAST</button>
+  </div>
 
-     <div class="controls">
-  <button id="play">START NEW FLIGHT</button>
-</div>
-    </section>
+  <section class="game">
+    <div class="top-info">
+      <span>FLIGHT SCORE</span>
+      <span id="status">WAITING FOR FLIGHT</span>
+    </div>
 
-    <section class="history">
-      <h3>ROUND HISTORY</h3>
-      <div id="history">No rounds yet</div>
-    </section>
-    <p class="notice">Demo game only. Points have no cash value and cannot be withdrawn.</p>
-  </main>
+    <div class="multiplier" id="multiplier">1.00x</div>
+
+    <div class="sky">
+      <div class="stars"></div>
+      <div class="curve"></div>
+      <div id="plane">🚀</div>
+      <div class="cloud cloud1">☁</div>
+      <div class="cloud cloud2">☁</div>
+      <div class="cloud cloud3">☁</div>
+    </div>
+
+    <div class="history-title">RECENT FLIGHT SCORES</div>
+    <div id="history" class="history">
+      <span>READY</span>
+    </div>
+  </section>
+
+  <section class="controls">
+    <div class="mode">
+      <button class="selected">MANUAL</button>
+      <button>AUTO</button>
+    </div>
+
+    <div class="score-card">
+      <span>PERSONAL BEST</span>
+      <strong id="best">0.00x</strong>
+    </div>
+
+    <button id="play" class="main-btn">START FLIGHT</button>
+    <button id="saveScore" class="save-btn" disabled>SAVE FLIGHT SCORE</button>
+    <p class="notice">Demo flight simulator · No real-money wagering</p>
+  </section>
 
   <script src="/app.js"></script>
 </body>
