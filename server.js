@@ -250,7 +250,45 @@ app.post("/api/bot/points", async (req, res) => {
     });
   }
 });
+app.get("/api/bot/points/:telegram_id", async (req, res) => {
+  try {
+    const suppliedSecret = req.headers["x-bot-secret"];
 
+    if (!BOT_API_SECRET || suppliedSecret !== BOT_API_SECRET) {
+      return res.status(401).json({
+        ok: false,
+        error: "Unauthorized"
+      });
+    }
+
+    const id = req.params.telegram_id;
+
+    if (!/^\d+$/.test(id)) {
+      return res.status(400).json({
+        ok: false,
+        error: "Invalid Telegram ID"
+      });
+    }
+
+    const result = await pool.query(
+      "SELECT points FROM web_accounts WHERE telegram_id = $1",
+      [id]
+    );
+
+    return res.json({
+      ok: true,
+      points: Number(result.rows[0]?.points ?? 0)
+    });
+
+  } catch (error) {
+    console.error("Points GET error:", error.message);
+
+    return res.status(500).json({
+      ok: false,
+      error: "Database error"
+    });
+  }
+});
 // Start server after database initialization
 async function startServer() {
   try {
