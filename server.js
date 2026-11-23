@@ -10,11 +10,13 @@ app.use(express.static("public"));
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const DATABASE_URL = process.env.DATABASE_URL;
 
+console.log("BOT_TOKEN present:", Boolean(BOT_TOKEN));
+console.log("DATABASE_URL present:", Boolean(DATABASE_URL));
+
 if (!BOT_TOKEN || !DATABASE_URL) {
-  console.error("Missing BOT_TOKEN or DATABASE_URL environment variable.");
+  console.error("One or more environment variables are missing.");
   process.exit(1);
 }
-
 const pool = new Pool({
   connectionString: DATABASE_URL,
   ssl: { rejectUnauthorized: false }
