@@ -1,0 +1,5 @@
+const statusEl=document.getElementById('status'), profile=document.getElementById('profile');
+function status(s){statusEl.textContent=s;}
+function showAccount(a){document.getElementById('name').textContent=a.first_name||'Telegram user';document.getElementById('handle').textContent=(a.username?'@'+a.username+' · ':'')+'Telegram ID: '+a.telegram_id;document.getElementById('points').textContent=Number(a.points||0).toLocaleString();profile.classList.remove('hidden');status('Account automatically linked to your Telegram account.');}
+async function autoLink(){const tg=window.Telegram&&window.Telegram.WebApp;if(!tg||!tg.initData){status('Open this page using the Open Website button inside @zxpzcsbot in Telegram. Your account will link automatically.');return;}tg.ready();tg.expand();status('Verifying your Telegram account…');try{const r=await fetch('/api/auth/telegram-webapp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({initData:tg.initData})});const j=await r.json();if(!r.ok)throw new Error(j.error||'Account linking failed');showAccount(j.account);}catch(e){status(e.message);}}
+autoLink();
