@@ -133,7 +133,66 @@ app.get("/api/account", async (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 10000;
+
+const BOT_API_SECRET = process.env.BOT_API_SECRET;
+
+app.post("/api/bot/points", async (req, res) => {
+  try {
+    const suppliedSecret = req.headers["x-bot-secret"];
+
+    if (!BOT_API_SECRET || suppliedSecret !== BOT_API_SECRET) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const { action, telegram_id, amount } = req.body || {};
+
+    if (!/^\d+$/.test(String(telegram_id || ""))) {
+      return res.status(400).json({ error: "Invalid Telegram ID" });
+    }
+
+    const id = String(telegram_id);
+
+    if (action === "get") {
+      const result = await pool.query(
+        "SELECT telegram_id, points FROM web_accounts WHERE telegram_id = $1",
+        [id]
+      );
+
+      return res.json({
+        ok: true,
+        points: result.rows[0]?.points ?? 0
+      });
+    }
+
+    if (!["add", "remove"].includes(action)) {
+      return res.status(400).json({ error: "Invalid action" });
+    }
+
+    const value = Number(amount);
+
+    if (!Number.isSafeInteger(value) || value < 1 || value > 1000000) {
+      return res.status(400).json({ error: "Invalid amount" });
+    }
+
+    const change = action === "add" ? value : -value;
+
+    const result = await pool.query(
+      `INSERT INTO web_accounts (telegram_id, points)
+       VALUES ($1, GREATEST(0, $2))
+       ON CONFLICT (telegram_id)
+       DO UPDATE SET points = GREATEST(0, web_accounts.points + $2)
+       RETURNING telegram_id, points`,
+      [id, change]
+    );
+
+    res.json({ ok: true, account: result.rows[0] });
+
+  } catch (error) {
+    console.error("Bot points API error:", error.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 
 initDatabase()
   .then(() => {
