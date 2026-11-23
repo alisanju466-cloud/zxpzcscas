@@ -1,115 +1,195 @@
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
-  background: #090909;
+  background: #070910;
   color: white;
   font-family: Arial, sans-serif;
 }
 
 header {
-  padding: 20px;
-  background: #151515;
+  background: #101522;
+  padding: 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 12px;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid #29334b;
 }
 
-h2 { color: #ff4040; }
+header h2 {
+  color: #ff4545;
+  margin: 0;
+}
 
 .balance {
-  background: #252525;
+  background: #202a3b;
   padding: 12px;
   border-radius: 10px;
 }
 
 main {
-  max-width: 750px;
-  margin: 25px auto;
-  padding: 15px;
+  width: min(850px, 95%);
+  margin: 20px auto;
 }
 
 .game {
-  background: #151515;
-  padding: 15px;
+  background: #101522;
+  border: 1px solid #27344d;
   border-radius: 18px;
-}
-
-.sky {
-  height: 320px;
-  background: radial-gradient(ellipse at bottom, #391313, #101010 70%);
-  border: 1px solid #542020;
-  border-radius: 14px;
-  position: relative;
+  padding: 12px;
   overflow: hidden;
 }
 
+.sky {
+  position: relative;
+  height: 390px;
+  overflow: hidden;
+  border-radius: 14px;
+  background:
+    radial-gradient(ellipse at 80% 80%, #50202c 0%, transparent 45%),
+    linear-gradient(150deg, #101e37, #080b15 75%);
+}
+
+.sky::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .35;
+  background-image:
+    radial-gradient(white 1px, transparent 1px);
+  background-size: 48px 48px;
+  animation: stars 15s linear infinite;
+}
+
+@keyframes stars {
+  from { transform: translateY(0); }
+  to { transform: translateY(48px); }
+}
+
 #multiplier {
+  position: absolute;
+  top: 65px;
+  width: 100%;
   text-align: center;
-  padding-top: 70px;
-  font-size: 55px;
-  font-weight: bold;
-  color: #ff4545;
+  font-size: clamp(45px, 12vw, 76px);
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 0 25px #ff3838;
+  z-index: 4;
 }
 
 #plane {
   position: absolute;
   left: 10%;
   bottom: 35px;
-  font-size: 45px;
-  transition: left .1s linear, bottom .1s linear;
+  font-size: 55px;
+  z-index: 5;
+  filter: drop-shadow(0 0 14px #ff6b37);
+  transform: rotate(-15deg);
+  transition: left .08s linear, bottom .08s linear;
+}
+
+.cloud {
+  position: absolute;
+  width: 180px;
+  height: 45px;
+  background: #35435c;
+  opacity: .22;
+  border-radius: 50%;
+  filter: blur(13px);
+  animation: cloudMove 12s linear infinite;
+}
+
+.cloud.one {
+  top: 35%;
+  left: 100%;
+}
+
+.cloud.two {
+  top: 72%;
+  left: 130%;
+  animation-delay: -5s;
+}
+
+@keyframes cloudMove {
+  to { transform: translateX(-1100px); }
 }
 
 #status {
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
   text-align: center;
-  margin-top: 12px;
-  color: #aaa;
-  font-size: 13px;
+  color: #d3d9e8;
   letter-spacing: 2px;
+  font-size: 12px;
+  z-index: 6;
 }
 
 .controls {
+  padding: 18px 5px 8px;
   display: grid;
   gap: 12px;
-  padding-top: 20px;
-}
-
-input {
-  padding: 15px;
-  background: #252525;
-  border: 1px solid #444;
-  border-radius: 9px;
-  color: white;
-  font-size: 17px;
 }
 
 button {
-  padding: 16px;
-  background: #d92828;
-  color: white;
-  border: 0;
-  border-radius: 10px;
+  border: none;
+  border-radius: 11px;
+  padding: 17px;
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+  color: white;
+  background: linear-gradient(110deg, #e52c3d, #ff6545);
+}
+
+button.lock {
+  background: linear-gradient(110deg, #087e60, #13b987);
 }
 
 button:disabled {
-  opacity: .5;
+  opacity: .45;
+  cursor: not-allowed;
 }
 
 .history {
-  background: #151515;
-  margin-top: 20px;
-  padding: 20px;
+  margin-top: 18px;
+  padding: 18px;
+  background: #101522;
+  border: 1px solid #27344d;
   border-radius: 14px;
+}
+
+#history {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.history-item {
+  padding: 9px 13px;
+  background: #252e43;
+  border-radius: 20px;
+  color: #ffb6a3;
+}
+
+.explosion {
+  animation: blast .45s ease-out;
+}
+
+@keyframes blast {
+  0% { filter: brightness(1); }
+  30% { filter: brightness(4) saturate(2); }
+  100% { filter: brightness(.5); }
 }
 
 .notice {
   text-align: center;
-  color: #999;
+  color: #8590a6;
   font-size: 12px;
+  padding: 15px;
 }
