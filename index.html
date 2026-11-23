@@ -1,1 +1,41 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ZXPZCS Account</title><link rel="stylesheet" href="/style.css"><script src="https://telegram.org/js/telegram-web-app.js"></script></head><body><main class="wrap"><header><div class="mark">ZX</div><div><h1>ZXPZCS</h1><p>Telegram account portal</p></div></header><section class="panel"><p class="eyebrow">ACCOUNT CONNECTION</p><h2>Your Telegram account</h2><p id="status">Connecting securely to Telegram…</p><div id="profile" class="profile hidden"><div class="avatar">✦</div><div><strong id="name"></strong><p id="handle"></p></div></div><div class="balance"><span>Virtual points</span><strong id="points">—</strong></div><small>Virtual points only. No cash value. This portal does not access the bot payment or wagering balance.</small></section></main><script src="/app.js"></script></body></html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZXPZCS | Aviator Demo</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <h2>✈ ZXPZCS AVIATOR</h2>
+    <div class="balance">Demo points: <b id="balance">1000</b></div>
+  </header>
+
+  <main>
+    <section class="game">
+      <div class="sky">
+        <div id="multiplier">1.00x</div>
+        <div id="plane">✈️</div>
+        <div id="status">READY FOR TAKEOFF</div>
+      </div>
+
+      <div class="controls">
+        <label for="bet">Demo points per round</label>
+        <input id="bet" type="number" min="1" max="1000" value="50">
+        <button id="play">START DEMO ROUND</button>
+      </div>
+    </section>
+
+    <section class="history">
+      <h3>ROUND HISTORY</h3>
+      <div id="history">No rounds yet</div>
+    </section>
+    <p class="notice">Demo game only. Points have no cash value and cannot be withdrawn.</p>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
