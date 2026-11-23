@@ -16,6 +16,8 @@ let timer = null;
 let startTime = 0;
 let crashAt = 0;
 let bestScore = Number(localStorage.getItem("bestFlightScore") || 0);
+document.getElementById("best").textContent =
+  bestScore.toFixed(2) + "x";
 
 const lockBtn = document.createElement("button");
 lockBtn.id = "saveScore";
@@ -113,6 +115,8 @@ function saveScore() {
     bestScore = score;
     localStorage.setItem("bestFlightScore", bestScore);
   }
+  document.getElementById("best").textContent =
+  bestScore.toFixed(2) + "x";
 
   statusEl.textContent =
     `SCORE SAVED: ${score.toFixed(2)}x | BEST: ${bestScore.toFixed(2)}x`;
